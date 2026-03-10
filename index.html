@@ -6,17 +6,21 @@
   <title>For Destini</title>
   <style>
     :root {
-      --bg1: #0f172a;
+      --bg1: #0b1220;
       --bg2: #1e293b;
       --accent: #f472b6;
       --accent2: #c084fc;
       --text: #f8fafc;
       --muted: #cbd5e1;
       --panel: rgba(255,255,255,0.08);
+      --panel-strong: rgba(255,255,255,0.11);
       --border: rgba(255,255,255,0.14);
+      --shadow: 0 24px 70px rgba(0,0,0,0.35);
     }
 
     * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -64,13 +68,13 @@
     }
 
     .card {
-      width: min(840px, 100%);
+      width: min(880px, 100%);
       background: var(--panel);
       border: 1px solid var(--border);
       backdrop-filter: blur(14px);
-      border-radius: 28px;
-      padding: 28px;
-      box-shadow: 0 24px 70px rgba(0,0,0,0.35);
+      border-radius: 30px;
+      padding: 30px;
+      box-shadow: var(--shadow);
       position: relative;
       overflow: hidden;
     }
@@ -79,9 +83,9 @@
       content: "";
       position: absolute;
       inset: auto -80px -80px auto;
-      width: 220px;
-      height: 220px;
-      background: radial-gradient(circle, rgba(244,114,182,0.25), transparent 70%);
+      width: 240px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(244,114,182,0.24), transparent 70%);
       border-radius: 50%;
       pointer-events: none;
     }
@@ -104,6 +108,7 @@
       font-size: clamp(2.4rem, 7vw, 4.8rem);
       line-height: 0.98;
       margin: 18px 0 10px;
+      max-width: 9ch;
     }
 
     .accent {
@@ -119,6 +124,7 @@
       line-height: 1.7;
       min-height: 3.5em;
       max-width: 62ch;
+      margin-bottom: 0;
     }
 
     .controls {
@@ -128,17 +134,17 @@
       margin-top: 24px;
     }
 
-    button, .ghost {
+    button {
       border: 0;
       border-radius: 16px;
-      padding: 14px 20px;
+      padding: 15px 22px;
       font-size: 1rem;
       cursor: pointer;
-      transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
       text-decoration: none;
     }
 
-    button:hover, .ghost:hover { transform: translateY(-2px); }
+    button:hover { transform: translateY(-2px); }
 
     .primary {
       background: linear-gradient(90deg, var(--accent), var(--accent2));
@@ -146,54 +152,29 @@
       box-shadow: 0 12px 30px rgba(244,114,182,0.24);
     }
 
-    .ghost {
+    .secondary {
       background: rgba(255,255,255,0.08);
       color: var(--text);
       border: 1px solid rgba(255,255,255,0.14);
     }
 
-    .player {
-      margin-top: 26px;
-      padding: 18px;
-      border-radius: 22px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      display: grid;
-      gap: 12px;
-    }
-
-    .player-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
-
-    .song-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-    }
-
-    .song-sub {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-top: 4px;
-    }
-
-    audio {
-      width: 100%;
-      filter: brightness(1.08);
+    .divider {
+      height: 1px;
+      margin: 26px 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent);
     }
 
     .timeline {
-      margin-top: 28px;
-      display: grid;
+      display: none;
       gap: 16px;
     }
 
+    .timeline.show {
+      display: grid;
+    }
+
     .moment {
-      padding: 18px;
+      padding: 20px;
       border-radius: 22px;
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.08);
@@ -209,36 +190,106 @@
 
     .moment h3 {
       margin: 0 0 8px;
-      font-size: 1.1rem;
+      font-size: 1.14rem;
     }
 
     .moment p {
       margin: 0;
       color: var(--muted);
-      line-height: 1.65;
+      line-height: 1.7;
+      font-size: 1.02rem;
+    }
+
+    .song-cta {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .song-cta.show {
+      display: block;
+      animation: fadeIn 0.7s ease;
+    }
+
+    .player {
+      display: none;
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.05));
+      border: 1px solid rgba(255,255,255,0.1);
+      gap: 14px;
+    }
+
+    .player.show {
+      display: grid;
+      animation: fadeIn 0.7s ease;
+    }
+
+    .player-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .song-title {
+      font-size: 1.28rem;
+      font-weight: 700;
+    }
+
+    .song-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    .status-pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    audio {
+      width: 100%;
+      filter: brightness(1.05);
+    }
+
+    .song-note {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
     }
 
     .final {
-      margin-top: 30px;
-      padding: 28px;
+      margin-top: 28px;
+      padding: 30px;
       border-radius: 28px;
       text-align: center;
-      background: linear-gradient(180deg, rgba(244,114,182,0.14), rgba(192,132,252,0.1));
-      border: 1px solid rgba(255,255,255,0.14);
+      background: linear-gradient(180deg, rgba(244,114,182,0.16), rgba(192,132,252,0.12));
+      border: 1px solid rgba(255,255,255,0.16);
       display: none;
+      box-shadow: 0 16px 40px rgba(244,114,182,0.12);
     }
 
-    .final.show { display: block; }
+    .final.show {
+      display: block;
+      animation: fadeInUp 1s ease;
+    }
 
     .final h2 {
-      font-size: clamp(2rem, 6vw, 3.4rem);
-      margin: 0 0 10px;
+      font-size: clamp(2.1rem, 6vw, 3.6rem);
+      margin: 0 0 12px;
+      line-height: 1.05;
     }
 
     .final p {
       margin: 0;
       color: var(--muted);
-      font-size: 1.05rem;
+      font-size: 1.08rem;
     }
 
     .heart {
@@ -248,16 +299,27 @@
       display: inline-block;
     }
 
+    .hidden { display: none; }
+
     @keyframes pulse {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.12); }
     }
 
-    .hidden { display: none; }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     @media (max-width: 640px) {
       .card { padding: 22px; }
       .player-top { align-items: flex-start; }
+      h1 { max-width: 100%; }
     }
   </style>
 </head>
@@ -269,42 +331,50 @@
       <h1>Every piece led to <span class="accent">you</span>.</h1>
       <p class="lead" id="introText"></p>
 
-      <div class="controls">
-        <button class="primary" id="beginBtn">Start the song</button>
-        <button class="ghost" id="storyBtn">Show our story</button>
+      <div class="controls" id="firstControls">
+        <button class="primary" id="storyBtn">See how the pieces fit</button>
       </div>
 
-      <section class="player hidden" id="playerSection">
-        <div class="player-top">
-          <div>
-            <div class="song-title">Your Song Title Here</div>
-            <div class="song-sub">A song from Isaac to Destini</div>
-          </div>
-          <div class="song-sub" id="statusText">Ready when you are</div>
-        </div>
-        <audio id="proposalSong" controls>
-          <source src="your-song-file.mp3" type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
-      </section>
+      <div class="divider"></div>
 
       <section class="timeline" id="timeline">
         <article class="moment">
-          <h3>The first piece</h3>
+          <h3>The beginning</h3>
           <p>Every love story starts somewhere. Ours started with a moment that became the beginning of everything important to me.</p>
         </article>
         <article class="moment">
-          <h3>The second piece</h3>
+          <h3>The moment I knew</h3>
           <p>Somewhere between the laughs, the memories, and the ordinary days that became special because of you, I realized what you meant to me.</p>
         </article>
         <article class="moment">
-          <h3>The third piece</h3>
+          <h3>The future I see</h3>
           <p>I didn’t just fall in love with you once. I keep choosing you, over and over, in every version of my future that I imagine.</p>
         </article>
         <article class="moment">
           <h3>The final piece</h3>
           <p>This whole puzzle was leading here, because the answer was never hidden from me. It has always been you.</p>
         </article>
+      </section>
+
+      <div class="song-cta" id="songCta">
+        <div class="controls">
+          <button class="primary" id="beginBtn">Play the final piece</button>
+        </div>
+      </div>
+
+      <section class="player" id="playerSection">
+        <div class="player-top">
+          <div>
+            <div class="song-title">The Final Piece</div>
+            <div class="song-sub">A song from Isaac to Destini</div>
+          </div>
+          <div class="status-pill" id="statusText">Ready when you are</div>
+        </div>
+        <audio id="proposalSong" controls preload="metadata">
+          <source src="song.mp3" type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+        <div class="song-note" id="songNote">Press play and let the song finish.</div>
       </section>
 
       <section class="final" id="finalSection">
@@ -318,11 +388,14 @@
   <script>
     const introText = document.getElementById('introText');
     const introMessage = 'You found every piece. Now there is only one thing left for me to show you.';
-    const beginBtn = document.getElementById('beginBtn');
     const storyBtn = document.getElementById('storyBtn');
+    const beginBtn = document.getElementById('beginBtn');
+    const timeline = document.getElementById('timeline');
+    const songCta = document.getElementById('songCta');
     const playerSection = document.getElementById('playerSection');
     const proposalSong = document.getElementById('proposalSong');
     const statusText = document.getElementById('statusText');
+    const songNote = document.getElementById('songNote');
     const moments = document.querySelectorAll('.moment');
     const finalSection = document.getElementById('finalSection');
 
@@ -331,27 +404,60 @@
       if (i < introMessage.length) {
         introText.textContent += introMessage.charAt(i);
         i += 1;
-        setTimeout(typeIntro, 35);
+        setTimeout(typeIntro, 32);
       }
     }
     typeIntro();
 
-    beginBtn.addEventListener('click', () => {
-      playerSection.classList.remove('hidden');
-      statusText.textContent = 'Playing your song...';
-      proposalSong.play().catch(() => {
-        statusText.textContent = 'Tap play on the audio bar to start the song.';
+    storyBtn.addEventListener('click', () => {
+      timeline.classList.add('show');
+      storyBtn.disabled = true;
+      storyBtn.textContent = 'Your story is unfolding...';
+
+      moments.forEach((moment, index) => {
+        setTimeout(() => {
+          moment.classList.add('show');
+          if (index === moments.length - 1) {
+            setTimeout(() => {
+              songCta.classList.add('show');
+              songCta.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 500);
+          }
+        }, index * 850);
       });
     });
 
-    storyBtn.addEventListener('click', () => {
-      moments.forEach((moment, index) => {
-        setTimeout(() => moment.classList.add('show'), index * 450);
-      });
+    beginBtn.addEventListener('click', () => {
+      playerSection.classList.add('show');
+      playerSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      statusText.textContent = 'Loading your song...';
+
+      const playPromise = proposalSong.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          statusText.textContent = 'Playing your song...';
+          songNote.textContent = 'Listen all the way to the end.';
+        }).catch(() => {
+          statusText.textContent = 'Press play on the audio bar.';
+          songNote.textContent = 'If it does not load, wait a few seconds and refresh the page.';
+        });
+      }
     });
 
     proposalSong.addEventListener('play', () => {
       statusText.textContent = 'Playing your song...';
+      songNote.textContent = 'Listen all the way to the end.';
+    });
+
+    proposalSong.addEventListener('loadedmetadata', () => {
+      if (proposalSong.duration && isFinite(proposalSong.duration)) {
+        statusText.textContent = 'Your song is ready';
+      }
+    });
+
+    proposalSong.addEventListener('error', () => {
+      statusText.textContent = 'Song could not load';
+      songNote.innerHTML = 'Make sure the file is really named <strong>song.mp3</strong> and wait a minute for GitHub Pages to update.';
     });
 
     proposalSong.addEventListener('ended', () => {
