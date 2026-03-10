@@ -164,6 +164,30 @@
       background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent);
     }
 
+    .photo-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .photo-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      overflow: hidden;
+      min-height: 150px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+    }
+
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+      min-height: 150px;
+      object-fit: cover;
+      display: block;
+    }
+
     .timeline {
       display: none;
       gap: 16px;
@@ -186,6 +210,24 @@
     .moment.show {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    .story-photo-wrap {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .story-photo {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      display: block;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+      background: rgba(255,255,255,0.04);
     }
 
     .moment h3 {
@@ -265,18 +307,31 @@
     }
 
     .final {
-      margin-top: 28px;
-      padding: 30px;
-      border-radius: 28px;
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      padding: 32px;
+      display: none;
+      place-items: center;
       text-align: center;
+      background:
+        radial-gradient(circle at top, rgba(244,114,182,0.22), transparent 26%),
+        radial-gradient(circle at bottom right, rgba(192,132,252,0.20), transparent 30%),
+        rgba(11,18,32,0.94);
+      backdrop-filter: blur(10px);
+    }
+
+    .final-card {
+      width: min(760px, 100%);
+      padding: 34px;
+      border-radius: 30px;
       background: linear-gradient(180deg, rgba(244,114,182,0.16), rgba(192,132,252,0.12));
       border: 1px solid rgba(255,255,255,0.16);
-      display: none;
       box-shadow: 0 16px 40px rgba(244,114,182,0.12);
     }
 
     .final.show {
-      display: block;
+      display: grid;
       animation: fadeInUp 1s ease;
     }
 
@@ -320,6 +375,16 @@
       .card { padding: 22px; }
       .player-top { align-items: flex-start; }
       h1 { max-width: 100%; }
+      .photo-strip { grid-template-columns: 1fr; }
+      .story-photo-wrap { grid-template-columns: 1fr; }
+      .story-photo { height: 220px; }
+    }
+      .player-top { align-items: flex-start; }
+      h1 { max-width: 100%; }
+      .photo-strip { grid-template-columns: 1fr; }
+    }
+      .player-top { align-items: flex-start; }
+      h1 { max-width: 100%; }
     }
   </style>
 </head>
@@ -337,16 +402,34 @@
 
       <div class="divider"></div>
 
+      <section class="photo-strip" id="photoStrip">
+        <div class="photo-card"><img src="photo1.jpg" alt="Memory one" /></div>
+        <div class="photo-card"><img src="photo2.jpg" alt="Memory two" /></div>
+        <div class="photo-card"><img src="photo3.jpg" alt="Memory three" /></div>
+      </section>
+
       <section class="timeline" id="timeline">
         <article class="moment">
+          <div class="story-photo-wrap">
+            <img src="box1a.jpg" class="story-photo" alt="The beginning memory" />
+            <img src="box1b.jpg" class="story-photo" alt="The beginning memory two" />
+          </div>
           <h3>The beginning</h3>
           <p>Every love story starts somewhere. Ours started with a moment that became the beginning of everything important to me.</p>
         </article>
         <article class="moment">
+          <div class="story-photo-wrap">
+            <img src="box2a.jpg" class="story-photo" alt="The moment I knew memory" />
+            <img src="box2b.jpg" class="story-photo" alt="The moment I knew memory two" />
+          </div>
           <h3>The moment I knew</h3>
           <p>Somewhere between the laughs, the memories, and the ordinary days that became special because of you, I realized what you meant to me.</p>
         </article>
         <article class="moment">
+          <div class="story-photo-wrap">
+            <img src="box3a.jpg" class="story-photo" alt="The future I see memory" />
+            <img src="box3b.jpg" class="story-photo" alt="The future I see memory two" />
+          </div>
           <h3>The future I see</h3>
           <p>I didn’t just fall in love with you once. I keep choosing you, over and over, in every version of my future that I imagine.</p>
         </article>
@@ -378,9 +461,11 @@
       </section>
 
       <section class="final" id="finalSection">
-        <div class="heart">❤</div>
-        <h2>Destini Garcia,<br />will you marry me?</h2>
-        <p>Turn around.</p>
+        <div class="final-card">
+          <div class="heart">❤</div>
+          <h2>Destini Garcia,<br />will you marry me?</h2>
+          <p>Turn around.</p>
+        </div>
       </section>
     </main>
   </div>
