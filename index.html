@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For Destini</title>
+  <style>
+    :root {
+      --bg1: #0f172a;
+      --bg2: #1e293b;
+      --accent: #f472b6;
+      --accent2: #c084fc;
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --panel: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(244,114,182,0.18), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(192,132,252,0.18), transparent 30%),
+        linear-gradient(160deg, var(--bg1), var(--bg2));
+      overflow-x: hidden;
+    }
+
+    .stars,
+    .stars::before,
+    .stars::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        radial-gradient(2px 2px at 40px 60px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1.5px 1.5px at 160px 120px, rgba(255,255,255,0.65), transparent),
+        radial-gradient(1px 1px at 300px 40px, rgba(255,255,255,0.55), transparent),
+        radial-gradient(2px 2px at 420px 180px, rgba(255,255,255,0.65), transparent),
+        radial-gradient(1px 1px at 520px 100px, rgba(255,255,255,0.5), transparent);
+      background-size: 600px 260px;
+      opacity: 0.38;
+      animation: drift 24s linear infinite;
+    }
+
+    .stars::before { opacity: 0.24; animation-duration: 34s; }
+    .stars::after { opacity: 0.16; animation-duration: 46s; }
+
+    @keyframes drift {
+      from { transform: translateY(0); }
+      to { transform: translateY(-120px); }
+    }
+
+    .wrap {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: min(840px, 100%);
+      background: var(--panel);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(14px);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: auto -80px -80px auto;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(244,114,182,0.25), transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: var(--muted);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 7vw, 4.8rem);
+      line-height: 0.98;
+      margin: 18px 0 10px;
+    }
+
+    .accent {
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.08rem;
+      line-height: 1.7;
+      min-height: 3.5em;
+      max-width: 62ch;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    button, .ghost {
+      border: 0;
+      border-radius: 16px;
+      padding: 14px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+      text-decoration: none;
+    }
+
+    button:hover, .ghost:hover { transform: translateY(-2px); }
+
+    .primary {
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      color: white;
+      box-shadow: 0 12px 30px rgba(244,114,182,0.24);
+    }
+
+    .ghost {
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .player {
+      margin-top: 26px;
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      display: grid;
+      gap: 12px;
+    }
+
+    .player-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .song-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .song-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    audio {
+      width: 100%;
+      filter: brightness(1.08);
+    }
+
+    .timeline {
+      margin-top: 28px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .moment {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      opacity: 0;
+      transform: translateY(16px);
+      transition: 0.7s ease;
+    }
+
+    .moment.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .moment h3 {
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+    }
+
+    .moment p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .final {
+      margin-top: 30px;
+      padding: 28px;
+      border-radius: 28px;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(244,114,182,0.14), rgba(192,132,252,0.1));
+      border: 1px solid rgba(255,255,255,0.14);
+      display: none;
+    }
+
+    .final.show { display: block; }
+
+    .final h2 {
+      font-size: clamp(2rem, 6vw, 3.4rem);
+      margin: 0 0 10px;
+    }
+
+    .final p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .heart {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      animation: pulse 1.5s infinite;
+      display: inline-block;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 640px) {
+      .card { padding: 22px; }
+      .player-top { align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+  <div class="wrap">
+    <main class="card">
+      <div class="badge">A message for Destini</div>
+      <h1>Every piece led to <span class="accent">you</span>.</h1>
+      <p class="lead" id="introText"></p>
+
+      <div class="controls">
+        <button class="primary" id="beginBtn">Start the song</button>
+        <button class="ghost" id="storyBtn">Show our story</button>
+      </div>
+
+      <section class="player hidden" id="playerSection">
+        <div class="player-top">
+          <div>
+            <div class="song-title">Your Song Title Here</div>
+            <div class="song-sub">A song from Isaac to Destini</div>
+          </div>
+          <div class="song-sub" id="statusText">Ready when you are</div>
+        </div>
+        <audio id="proposalSong" controls>
+          <source src="your-song-file.mp3" type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
+      </section>
+
+      <section class="timeline" id="timeline">
+        <article class="moment">
+          <h3>The first piece</h3>
+          <p>Every love story starts somewhere. Ours started with a moment that became the beginning of everything important to me.</p>
+        </article>
+        <article class="moment">
+          <h3>The second piece</h3>
+          <p>Somewhere between the laughs, the memories, and the ordinary days that became special because of you, I realized what you meant to me.</p>
+        </article>
+        <article class="moment">
+          <h3>The third piece</h3>
+          <p>I didn’t just fall in love with you once. I keep choosing you, over and over, in every version of my future that I imagine.</p>
+        </article>
+        <article class="moment">
+          <h3>The final piece</h3>
+          <p>This whole puzzle was leading here, because the answer was never hidden from me. It has always been you.</p>
+        </article>
+      </section>
+
+      <section class="final" id="finalSection">
+        <div class="heart">❤</div>
+        <h2>Destini Garcia,<br />will you marry me?</h2>
+        <p>Turn around.</p>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const introText = document.getElementById('introText');
+    const introMessage = 'You found every piece. Now there is only one thing left for me to show you.';
+    const beginBtn = document.getElementById('beginBtn');
+    const storyBtn = document.getElementById('storyBtn');
+    const playerSection = document.getElementById('playerSection');
+    const proposalSong = document.getElementById('proposalSong');
+    const statusText = document.getElementById('statusText');
+    const moments = document.querySelectorAll('.moment');
+    const finalSection = document.getElementById('finalSection');
+
+    let i = 0;
+    function typeIntro() {
+      if (i < introMessage.length) {
+        introText.textContent += introMessage.charAt(i);
+        i += 1;
+        setTimeout(typeIntro, 35);
+      }
+    }
+    typeIntro();
+
+    beginBtn.addEventListener('click', () => {
+      playerSection.classList.remove('hidden');
+      statusText.textContent = 'Playing your song...';
+      proposalSong.play().catch(() => {
+        statusText.textContent = 'Tap play on the audio bar to start the song.';
+      });
+    });
+
+    storyBtn.addEventListener('click', () => {
+      moments.forEach((moment, index) => {
+        setTimeout(() => moment.classList.add('show'), index * 450);
+      });
+    });
+
+    proposalSong.addEventListener('play', () => {
+      statusText.textContent = 'Playing your song...';
+    });
+
+    proposalSong.addEventListener('ended', () => {
+      statusText.textContent = 'One more thing...';
+      finalSection.classList.add('show');
+      finalSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  </script>
+</body>
+</html>
